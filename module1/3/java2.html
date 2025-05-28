@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Registration</title>
+  <style>
+    .event {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Available Events</h1>
+  <div id="eventList"></div>
+
+  <script>
+    const events = [
+      { name: "Music Festival", date: "2025-06-10", seats: 5 },
+      { name: "Tech Conference", date: "2025-05-01", seats: 0 },
+      { name: "Art Exhibition", date: "2025-07-15", seats: 10 },
+      { name: "Past Workshop", date: "2024-12-20", seats: 3 }
+    ];
+
+    const eventListDiv = document.getElementById("eventList");
+    const today = new Date();
+
+    events.forEach(event => {
+      const eventDate = new Date(event.date);
+      if (eventDate > today && event.seats > 0) {
+        const eventDiv = document.createElement("div");
+        eventDiv.className = "event";
+
+        eventDiv.innerHTML = `
+          <h3>${event.name}</h3>
+          <p>Date: ${event.date}</p>
+          <p>Seats Available: ${event.seats}</p>
+          <button onclick="register('${event.name}')">Register</button>
+        `;
+
+        eventListDiv.appendChild(eventDiv);
+      }
+    });
+
+    function register(eventName) {
+      try {
+        // Simulate error for a specific event
+        if (eventName === "Art Exhibition") {
+          throw new Error("Registration server error. Please try again later.");
+        }
+        alert(`Successfully registered for ${eventName}!`);
+      } catch (error) {
+        alert(`Error registering for ${eventName}: ${error.message}`);
+      }
+    }
+  </script>
+</body>
+</html>

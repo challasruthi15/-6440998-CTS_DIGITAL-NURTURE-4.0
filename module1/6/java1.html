@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community Events - Arrays and Methods</title>
+</head>
+<body>
+  <h1>Community Events</h1>
+
+  <h2>All Events</h2>
+  <ul id="allEventsList"></ul>
+
+  <h2>Music Events</h2>
+  <ul id="musicEventsList"></ul>
+
+  <script>
+    // Manage array of events
+    const events = [];
+
+    // Add new events using push()
+    events.push(
+      { id: 1, name: "Workshop on Baking", category: "Cooking" },
+      { id: 2, name: "Jazz Music Night", category: "Music" },
+      { id: 3, name: "Rock Concert", category: "Music" },
+      { id: 4, name: "Painting Class", category: "Art" }
+    );
+
+    // Display all events formatted as list items
+    const allEventsList = document.getElementById("allEventsList");
+    events.forEach(event => {
+      const li = document.createElement("li");
+      li.textContent = `${event.name} (${event.category})`;
+      allEventsList.appendChild(li);
+    });
+
+    // Filter music events only
+    const musicEvents = events.filter(event => event.category === "Music");
+
+    // Format music events for display
+    const musicEventsFormatted = musicEvents.map(event => `🎵 ${event.name}`);
+
+    // Display music events
+    const musicEventsList = document.getElementById("musicEventsList");
+    musicEventsFormatted.forEach(text => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      musicEventsList.appendChild(li);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event Operations</title>
+</head>
+<body>
+  <h1>Event Management</h1>
+  <script>
+    // Event storage
+    const events = [];
+
+    // Function to add an event
+    function addEvent(name, category) {
+      const event = { name, category };
+      events.push(event);
+      console.log(`Event "${name}" added under category "${category}".`);
+    }
+
+    // Closure to track total registrations by category
+    function registrationTracker() {
+      const categoryCounts = {};
+
+      return function registerUser(eventName, userName) {
+        const event = events.find(e => e.name === eventName);
+        if (!event) {
+          console.log(`Event "${eventName}" not found.`);
+          return;
+        }
+
+        const category = event.category;
+        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+
+        console.log(`${userName} registered for "${eventName}" in category "${category}".`);
+        console.log(`Total registrations in "${category}": ${categoryCounts[category]}`);
+      };
+    }
+
+    // Initialize registration tracker closure
+    const registerUser = registrationTracker();
+
+    // Higher-order function to filter events by category using a callback
+    function filterEventsByCategory(category, callback) {
+      const filtered = events.filter(event => event.category === category);
+      return callback(filtered);
+    }
+
+    // Sample usage
+    addEvent("JavaScript Workshop", "Programming");
+    addEvent("Yoga Session", "Wellness");
+    addEvent("Python Bootcamp", "Programming");
+    addEvent("Meditation Class", "Wellness");
+
+    registerUser("JavaScript Workshop", "Alice");
+    registerUser("Python Bootcamp", "Bob");
+    registerUser("Meditation Class", "Eve");
+
+    // Using callback for dynamic search
+    const result = filterEventsByCategory("Programming", (events) => {
+      return events.map(e => e.name);
+    });
+
+    console.log("Programming Events:", result);
+  </script>
+</body>
+</html>

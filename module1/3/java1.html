@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .event {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Available Events</h1>
+  <div id="event-list"></div>
+  <div id="error-message" class="error"></div>
+
+  <script>
+    const events = [
+      { id: 1, name: "JavaScript Workshop", date: "2025-06-15", seats: 5 },
+      { id: 2, name: "React Seminar", date: "2025-05-01", seats: 0 },
+      { id: 3, name: "Python Conference", date: "2025-07-20", seats: 10 },
+      { id: 4, name: "Old HTML Meetup", date: "2024-12-31", seats: 30 }
+    ];
+
+    const eventList = document.getElementById("event-list");
+    const errorMessage = document.getElementById("error-message");
+    const today = new Date();
+
+    // Loop through events using forEach
+    events.forEach(event => {
+      const eventDate = new Date(event.date);
+
+      // Use if-else to show only upcoming events with available seats
+      if (eventDate > today && event.seats > 0) {
+        const div = document.createElement("div");
+        div.className = "event";
+        div.innerHTML = `
+          <h3>${event.name}</h3>
+          <p>Date: ${event.date}</p>
+          <p>Seats Available: ${event.seats}</p>
+          <button onclick="register(${event.id})">Register</button>
+        `;
+        eventList.appendChild(div);
+      }
+    });
+
+    function register(id) {
+      try {
+        const selectedEvent = events.find(e => e.id === id);
+        if (!selectedEvent) throw new Error("Event not found.");
+        if (new Date(selectedEvent.date) < today) throw new Error("Event already occurred.");
+        if (selectedEvent.seats <= 0) throw new Error("Event is full.");
+
+        selectedEvent.seats--;
+        alert(`You are registered for ${selectedEvent.name}!`);
+        location.reload(); // reload to update the displayed seat count
+      } catch (error) {
+        errorMessage.textContent = `Registration error: ${error.message}`;
+      }
+    }
+  </script>
+
+</body>
+</html>

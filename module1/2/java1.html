@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .event-info {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .seats {
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Event Registration</h1>
+
+  <div class="event-info" id="eventDetails"></div>
+
+  <button onclick="register()">Register</button>
+
+  <script>
+    // Constants for event name and date
+    const eventName = "Tech Conference 2025";
+    const eventDate = "June 15, 2025";
+
+    // Let for available seats (modifiable)
+    let availableSeats = 100;
+
+    // Function to display event info
+    function displayEvent() {
+      const details = `
+        <p><strong>Event:</strong> ${eventName}</p>
+        <p><strong>Date:</strong> ${eventDate}</p>
+        <p><strong>Available Seats:</strong> <span class="seats">${availableSeats}</span></p>
+      `;
+      document.getElementById("eventDetails").innerHTML = details;
+    }
+
+    // Function to register a participant
+    function register() {
+      if (availableSeats > 0) {
+        availableSeats--; // Decrement seat count
+        displayEvent(); // Update display
+        alert("Registration successful!");
+      } else {
+        alert("Sorry, no seats available.");
+      }
+    }
+
+    // Initial display
+    displayEvent();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dynamic Event Display</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 1rem; }
+    .event-card {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fefefe;
+      max-width: 300px;
+    }
+    .event-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    button {
+      padding: 0.4rem 0.8rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #ddd;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Community Events</h1>
+  <div id="eventsContainer"></div>
+
+  <script>
+    const events = [
+      { id: 1, name: "Workshop on Baking", capacity: 5, registered: 0 },
+      { id: 2, name: "Jazz Music Night", capacity: 3, registered: 0 },
+      { id: 3, name: "Rock Concert", capacity: 10, registered: 0 },
+    ];
+
+    const container = document.querySelector("#eventsContainer");
+
+    function renderEvents() {
+      // Clear container
+      container.innerHTML = "";
+
+      events.forEach(event => {
+        // Create event card
+        const card = document.createElement("div");
+        card.className = "event-card";
+
+        // Title
+        const title = document.createElement("div");
+        title.className = "event-title";
+        title.textContent = event.name;
+        card.appendChild(title);
+
+        // Registered info
+        const info = document.createElement("div");
+        info.textContent = `Registered: ${event.registered} / Capacity: ${event.capacity}`;
+        card.appendChild(info);
+
+        // Register button
+        const registerBtn = document.createElement("button");
+        registerBtn.textContent = "Register";
+        registerBtn.disabled = event.registered >= event.capacity;
+        registerBtn.addEventListener("click", () => {
+          if (event.registered < event.capacity) {
+            event.registered++;
+            renderEvents();
+          }
+        });
+        card.appendChild(registerBtn);
+
+        // Cancel button
+        const cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "Cancel";
+        cancelBtn.disabled = event.registered === 0;
+        cancelBtn.addEventListener("click", () => {
+          if (event.registered > 0) {
+            event.registered--;
+            renderEvents();
+          }
+        });
+        card.appendChild(cancelBtn);
+
+        container.appendChild(card);
+      });
+    }
+
+    // Initial render
+    renderEvents();
+  </script>
+</body>
+</html>

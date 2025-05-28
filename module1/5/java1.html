@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Objects and Prototypes</title>
+</head>
+<body>
+  <h1>Event Objects and Prototypes Demo</h1>
+  <pre id="output"></pre>
+
+  <script>
+    // Define Event constructor (using ES6 class syntax)
+    class Event {
+      constructor(id, name, category, capacity) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.capacity = capacity;
+        this.registeredUsers = [];
+      }
+    }
+
+    // Add checkAvailability() to prototype
+    Event.prototype.checkAvailability = function () {
+      return this.capacity - this.registeredUsers.length > 0;
+    };
+
+    // Create an event instance
+    const musicEvent = new Event(101, "Jazz Night", "Music", 3);
+
+    // Register a couple of users
+    musicEvent.registeredUsers.push("Alice");
+    musicEvent.registeredUsers.push("Bob");
+
+    // Check availability
+    const availability = musicEvent.checkAvailability();
+
+    // List keys and values using Object.entries()
+    const entries = Object.entries(musicEvent);
+
+    // Format output nicely
+    let outputText = `Event Details:\n`;
+    entries.forEach(([key, value]) => {
+      outputText += `${key}: ${value}\n`;
+    });
+    outputText += `\nIs there availability? ${availability ? "Yes" : "No"}`;
+
+    // Display output in the page
+    document.getElementById("output").textContent = outputText;
+  </script>
+</body>
+</html>

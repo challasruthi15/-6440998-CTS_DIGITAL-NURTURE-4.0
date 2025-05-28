@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern JavaScript Features</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 1rem; }
+    .event-card {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      max-width: 300px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Community Events</h1>
+  <div id="eventsContainer"></div>
+
+  <script>
+    // Using const for events array
+    const events = [
+      { id: 1, name: "Workshop on Baking", category: "Cooking", capacity: 5, registered: 2 },
+      { id: 2, name: "Jazz Music Night", category: "Music", capacity: 3, registered: 1 },
+      { id: 3, name: "Rock Concert", category: "Music", capacity: 10, registered: 7 },
+      { id: 4, name: "Painting Class", category: "Art", capacity: 7, registered: 0 }
+    ];
+
+    const container = document.querySelector("#eventsContainer");
+
+    // Default parameter example: filterCategory defaults to "All"
+    function filterEvents(eventsList, filterCategory = "All") {
+      // Using spread operator to clone eventsList to avoid mutation
+      const clonedEvents = [...eventsList];
+      
+      return filterCategory === "All"
+        ? clonedEvents
+        : clonedEvents.filter(({ category }) => category === filterCategory);
+    }
+
+    function renderEvents(eventsList) {
+      container.innerHTML = "";
+      eventsList.forEach(event => {
+        // Destructure event properties
+        const { name, category, registered, capacity } = event;
+
+        const card = document.createElement("div");
+        card.className = "event-card";
+
+        card.innerHTML = `
+          <h3>${name}</h3>
+          <p>Category: ${category}</p>
+          <p>Registered: ${registered} / Capacity: ${capacity}</p>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Example usage: filter music events and render
+    const musicEvents = filterEvents(events, "Music");
+    renderEvents(musicEvents);
+  </script>
+
+</body>
+</html>
