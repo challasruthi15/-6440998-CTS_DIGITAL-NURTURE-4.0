@@ -1,0 +1,66 @@
+/* ===============================
+   Base Styles for Desktop
+   =============================== */
+
+body {
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background-color: #004080;
+  padding: 10px;
+  list-style: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+/* Images and containers */
+img.responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ===============================
+   Responsive Styles for Small Screens
+   =============================== */
+
+@media (max-width: 768px) {
+  /* Stack nav links vertically */
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul li {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  .news-article {
+    column-count: 1; /* Collapse columns on small screens */
+  }
+
+  img.responsive {
+    width: 100%;
+    height: auto;
+  }
+}

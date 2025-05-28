@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Preferences</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 400px;
+      margin: auto;
+      background: #f9f9f9;
+    }
+    label, select, button {
+      display: block;
+      width: 100%;
+      margin-top: 15px;
+    }
+    button {
+      padding: 10px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #b02a37;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Choose Your Preferred Event Type</h2>
+
+  <label for="eventType">Event Type:</label>
+  <select id="eventType">
+    <option value="">-- Select an event --</option>
+    <option value="workshop">Workshop</option>
+    <option value="seminar">Seminar</option>
+    <option value="festival">Festival</option>
+  </select>
+
+  <button id="clearPrefs">Clear Preferences</button>
+
+  <div id="status"></div>
+
+  <script>
+    const eventSelect = document.getElementById('eventType');
+    const status = document.getElementById('status');
+    const clearButton = document.getElementById('clearPrefs');
+
+    // Load saved preference from localStorage on page load
+    window.onload = function() {
+      const savedEvent = localStorage.getItem('preferredEvent');
+      if (savedEvent) {
+        eventSelect.value = savedEvent;
+        status.textContent = `Loaded your saved preference: ${savedEvent.charAt(0).toUpperCase() + savedEvent.slice(1)}`;
+      }
+    };
+
+    // Save selection to localStorage whenever it changes
+    eventSelect.addEventListener('change', () => {
+      const selected = eventSelect.value;
+      if (selected) {
+        localStorage.setItem('preferredEvent', selected);
+        // For demonstration, save something in sessionStorage too
+        sessionStorage.setItem('sessionEvent', selected);
+        status.textContent = `Saved preference: ${selected.charAt(0).toUpperCase() + selected.slice(1)}`;
+      } else {
+        localStorage.removeItem('preferredEvent');
+        status.textContent = 'Preference cleared.';
+      }
+    });
+
+    // Clear both localStorage and sessionStorage
+    clearButton.addEventListener('click', () => {
+      localStorage.removeItem('preferredEvent');
+      sessionStorage.clear();
+      eventSelect.value = '';
+      status.textContent = 'Preferences cleared!';
+    });
+  </script>
+
+</body>
+</html>

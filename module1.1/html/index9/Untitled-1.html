@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Geolocation for Event Mapping</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+      background: #f7f7f7;
+      text-align: center;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Find Nearby Events</h2>
+  <button id="findBtn">Find Nearby Events</button>
+
+  <div id="output"></div>
+
+  <script>
+    const output = document.getElementById('output');
+    const findBtn = document.getElementById('findBtn');
+
+    function success(position) {
+      const { latitude, longitude, accuracy } = position.coords;
+      output.textContent = 
+        `Your location:\nLatitude: ${latitude.toFixed(6)}\nLongitude: ${longitude.toFixed(6)}\nAccuracy: ±${accuracy} meters`;
+      // Here you could add logic to find nearest events using these coordinates
+    }
+
+    function error(err) {
+      switch(err.code) {
+        case err.PERMISSION_DENIED:
+          output.textContent = "Error: Permission to access location was denied.";
+          break;
+        case err.POSITION_UNAVAILABLE:
+          output.textContent = "Error: Location information is unavailable.";
+          break;
+        case err.TIMEOUT:
+          output.textContent = "Error: The request to get your location timed out.";
+          break;
+        default:
+          output.textContent = "An unknown error occurred.";
+      }
+    }
+
+    findBtn.addEventListener('click', () => {
+      output.textContent = "Locating…";
+
+      if (!navigator.geolocation) {
+        output.textContent = "Geolocation is not supported by your browser.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(success, error, {
+        enableHighAccuracy: true,
+        timeout: 10000,        // 10 seconds
+        maximumAge: 0
+      });
+    });
+  </script>
+
+</body>
+</html>
